@@ -1,0 +1,20 @@
+{% extends "Padam87SearchBundle::search.html.twig" %}
+
+{% block content %}
+
+{{ parent() }}
+
+<div class="row-fluid">
+    <div class="span12">
+        {{ orders|length }}
+        <table class="table table-striped">
+        {% for Order in orders %}
+            <tr>
+                <td>{{ Order.getCustomer().getName() }}</td>
+                <td>{{ Order.getDate().format('Y-m-d H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

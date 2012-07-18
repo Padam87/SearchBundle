@@ -1,0 +1,33 @@
+{% extends "Padam87SearchBundle::search.html.twig" %}
+
+{% block content %}
+
+{{ parent() }}
+
+<div class="row-fluid">
+    <div class="span3">
+        <form action="{{ path('padam87_search_default_orders') }}" method="POST">
+            {{ form_row(orderForm._token) }}
+            {{ form_row(orderForm.customer) }}
+                
+            <hr />
+            
+            {{ form_rest(customerForm) }}
+            <div class="form-actions">
+                <button class="btn" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="span9">
+        {{ orders|length }}
+        <table class="table table-striped">
+        {% for Order in orders %}
+            <tr>
+                <td>{{ Order.getCustomer().getName() }}</td>
+                <td>{{ Order.getDate().format('Y-m-d H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

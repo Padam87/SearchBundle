@@ -1,0 +1,64 @@
+<?php
+    namespace Padam87\SearchBundle\Filter;
+    
+    use Padam87\SearchBundle\Filter\ExprBuilder;
+    use Padam87\SearchBundle\Filter\ParameterBuilder;
+    
+    use Doctrine\ORM\Query\Expr;
+    use Doctrine\ORM\EntityManager;
+    
+    class ArrayFilter extends AbstractFilter
+    {
+        protected $array;
+        protected $alias;
+        
+        public function __construct(EntityManager $em, $entity, $alias)
+        {
+            parent::__construct($em);
+            
+            $this->array = $entity;
+            $this->alias = $alias;
+        }
+        
+        public function toArray()
+        {
+            return array_filter($this->array, function ($item) {
+                if(empty($item)) return false;
+
+                return true;
+            });
+        }
+        
+        public function toExpr()
+        {
+            $ExprBuilder = new ExprBuilder();
+            
+            $expressions = array();
+            
+            foreach($this->toArray() as $name => $value) {
+                $expressions[] = $ExprBuilder->getExpression($this->alias . '.' . $name, $value);
+            }
+            
+            if(empty($expressions)) {
+                return false;
+            }
+            
+            return new Expr\Andx($expressions);
+        }
+        
+        public function toParameters()
+        {
+            $ParamterBuilder = new ParameterBuilder();
+            
+            $parameters = array();
+            
+            foreach($this->toArray() as $name => $value) {
+                if($name == 'TYPE') continue;
+                
+                $parameters[] = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+            }
+            
+            return $parameters;
+        }
+    }
+?>
