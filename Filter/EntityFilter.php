@@ -36,7 +36,7 @@
 			foreach($fields as $field) {
 				if($field == 'id') continue;
 
-				$getter = "get" . ucfirst($field);
+				$getter = "get" . str_replace(" ", "", ucwords(str_replace("_", " ", $field)));
 				$filter[$field] = $this->entity->$getter();
                 
                 if(is_object($filter[$field]) && method_exists($filter[$field], 'getId')) {
