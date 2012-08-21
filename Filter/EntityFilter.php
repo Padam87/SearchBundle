@@ -45,7 +45,8 @@
 			}
 			
 			return array_filter($filter, function ($item) {
-				if (empty($item)) return false;
+                if($item === false) return true; // boolean field type
+				if(empty($item)) return false;
 
 				return true;
 			});

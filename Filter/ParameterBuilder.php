@@ -14,7 +14,9 @@
 		{
 			return array(
 				'token' => $this->createToken($name, $counter),
-				'value' => $this->cleanOperators($value, $this->valueOperators),
+				'value' => $this->cleanOperators($value, $this->valueOperators) === false
+                            ? 0 // PDO casts bool false to an empty text "" for some reason, this is a workaround
+                            : $this->cleanOperators($value, $this->valueOperators),
 			);
 		}
 		
