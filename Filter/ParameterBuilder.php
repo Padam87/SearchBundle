@@ -12,6 +12,11 @@
 	{		
 		public function getParameter($name, $value, $counter = false)
 		{
+            // No need to bound parameter to IS NOT NULL expression
+            if('NULL' == $this->getOperator($value, $this->valueOperators) && '!=' == $this->getOperator($name, $this->nameOperators)) {
+                return NULL;
+            }
+            
 			return array(
 				'token' => $this->createToken($name, $counter),
 				'value' => $this->cleanOperators($value, $this->valueOperators) === false

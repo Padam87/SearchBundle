@@ -55,7 +55,9 @@
             foreach($this->toArray() as $name => $value) {
                 if($name == 'TYPE') continue;
                 
-                $parameters[] = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+                $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+                
+                if($parameter != NULL) $parameters[] = $parameter;
             }
             
             return $parameters;

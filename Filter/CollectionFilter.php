@@ -74,7 +74,9 @@
             
             foreach($this->toArray() as $k => $set) {
                 foreach($set as $name => $value) {
-                    $parameters[] = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value, $k);
+                    $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+
+                    if($parameter != NULL) $parameters[] = $parameter;
                 }
             }
             

@@ -23,7 +23,12 @@
 						$expression = $Expr->lower($name) . " LIKE " . $this->createToken($name, $counter);
 						break;
 					case 'NULL':
-						$expression = $Expr->eq($name, $this->createToken($name, $counter));
+                        if('!=' == $this->getOperator($name, $this->nameOperators)) {
+                            $expression = $this->cleanOperators($name, $this->nameOperators) . " IS NOT NULL";
+                        }
+                        else {
+                            $expression = $Expr->eq($name, $this->createToken($name, $counter));
+                        }
 						break;
 				}
 			}

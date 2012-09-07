@@ -78,7 +78,9 @@
 			$parameters = array();
 			
 			foreach($this->toArray() as $name => $value) {
-				$parameters[] = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+                $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+                
+                if($parameter != NULL) $parameters[] = $parameter;
 			}
 			
 			return $parameters;
