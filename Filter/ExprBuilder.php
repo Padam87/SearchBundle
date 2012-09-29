@@ -9,7 +9,14 @@
 	 * @author Adam Prager <adam.prager@netlife.hu>
 	 */
 	class ExprBuilder extends OperatorHandler
-	{		
+	{
+        /**
+         * List of created tokens
+         *
+         * @var array
+         */
+        private $tokens = array();
+        
 		public function getExpression($name, $value, $counter = false)
 		{
 			$Expr = new Expr();
@@ -67,7 +74,15 @@
 		{
 			$name = $this->cleanOperators($name, $this->nameOperators);
             
-			return ':' . str_replace('.', '_', $name) . ($counter === false ? '' : $counter);
+			$token = ':' . str_replace('.', '_', $name) . ($counter === false ? '' : $counter);
+            
+            if(in_array($token, $this->tokens)) {
+                $token .= '_';
+            }
+            
+            $this->tokens[] = $token;
+            
+            return $token;
 		}
 	}
 ?>
