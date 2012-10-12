@@ -2,32 +2,58 @@
 
 {% block content %}
 
-{{ parent() }}
-
 <div class="row-fluid">
-    <div class="span3">
-        <form action="{{ path('padam87_search_default_orders') }}" method="POST">
-            {{ form_row(orderForm._token) }}
-            {{ form_row(orderForm.customer) }}
-                
-            <hr />
-            
-            {{ form_rest(customerForm) }}
-            <div class="form-actions">
-                <button class="btn" type="submit">Search</button>
-            </div>
-        </form>
-    </div>
     <div class="span9">
-        {{ orders|length }}
-        <table class="table table-striped">
+        <table class="table table-consended table-list">
+            <thead>
+                <tr>
+                    <th>Buyer</th>
+                    <th>Ordered At</th>
+                    <th>Items</th>
+                </tr>
+            </thead>
         {% for Order in orders %}
             <tr>
-                <td>{{ Order.getCustomer().getName() }}</td>
-                <td>{{ Order.getDate().format('Y-m-d H:i:s') }}</td>
+                <td>{{ Order.getBuyerName() }}</td>
+                <td>{{ Order.getCreatedAt().format('Y-m-d H:i:s') }}</td>
+                <td>
+                    <table class="table">
+                        {% for OrderItem in Order.getItems() %}
+                            <tr>
+                                <td>{{ OrderItem.getProduct() }}</td>
+                                <td>{{ OrderItem.getQuantity() }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
             </tr>
         {% endfor %}
         </table>
     </div>
+    <div class="span3">
+        <form action="{{ path('padam87_search_default_orders') }}" method="POST">
+            {{ form_row(orderForm._token) }}
+            {{ form_row(orderForm.buyerName) }}
+                
+            <hr />
+            
+            {{ form_rest(orderItemForm) }}
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
 </div>
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li>
+        <a href="{{ path('padam87_search_default_index') }}">Search</a>
+        <span class="divider"><i class="icon-chevron-right"></i></span>
+    </li>
+{% endblock %}
+
+{% block h1 %}
+    Orders
 {% endblock %}

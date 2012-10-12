@@ -1,27 +1,28 @@
-{% extends "::base.html.twig" %}
+{% extends "Padam87BaseBundle::base.html.twig" %}
 
 {% block title %}Search @ {{ parent() }}{% endblock %}
 
-{% block content %}
+{% block sidebar %}
 
-<ul class="nav nav-pills">
+<ul class="google visible-desktop">
     <li>
-        <a href="{{ path('padam87_search_default_index') }}">Customers</a>
+        <a href="{{ path('padam87_search_default_index') }}">Products<br /> - Simple example</a>
     </li>
     <li>
-        <a href="{{ path('padam87_search_default_orders') }}">Orders</a>
-    </li>
-    <li>
-        <a href="{{ path('padam87_search_default_ordersbyitem') }}">Orders by item</a>
-    </li>
-    <li>
-        <a href="{{ path('padam87_search_default_ordersbyitemand') }}">Orders by item AND</a>
-    </li>
-    <li>
-        <a href="{{ path('padam87_search_default_ordersbyitemcount') }}">Orders by item count</a>
+        <a href="{{ path('padam87_search_default_orders') }}">Orders<br /> - Combining two forms to build a query</a>
+        <ul>
+            <li>
+                <a href="{{ path('padam87_search_default_ordersbycollection') }}">By collection(OR)<br /> - Using collections for filtering directly</a>
+            </li>
+            <li>
+                <a href="{{ path('padam87_search_default_ordersbycollectionand') }}">By collection(AND)</a>
+            </li>
+        </ul>
     </li>
 </ul>
 
-<hr />
+{% endblock %}
 
+{% block breadcrumb %}
+    {{ parent() }}
 {% endblock %}

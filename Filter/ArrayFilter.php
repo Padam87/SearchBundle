@@ -10,7 +10,6 @@
     class ArrayFilter extends AbstractFilter
     {
         protected $array;
-        protected $alias;
         
         public function __construct(EntityManager $em, $entity, $alias)
         {
@@ -61,6 +60,11 @@
             }
             
             return $parameters;
+        }
+    
+        public function get($field)
+        {
+            return isset($this->array[$field]) ? $this->array[$field] : NULL;
         }
     }
 ?>

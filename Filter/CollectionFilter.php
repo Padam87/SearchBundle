@@ -11,7 +11,6 @@
     class CollectionFilter extends AbstractFilter
     {
         protected $collection;
-        protected $alias;
         
         public function __construct(EntityManager $em, $collection, $alias)
         {
@@ -74,13 +73,18 @@
             
             foreach($this->toArray() as $k => $set) {
                 foreach($set as $name => $value) {
-                    $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+                    $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value, $k);
 
                     if($parameter != NULL) $parameters[] = $parameter;
                 }
             }
             
             return $parameters;
+        }
+    
+        public function get($field)
+        {
+            return NULL;
         }
     }
 ?>

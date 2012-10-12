@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Acme\PizzaBundle\Entity as Entity;
+use Padam87\BaseBundle\Entity as Entity;
 use Padam87\SearchBundle\Form as Form;
 
 use Padam87\SearchBundle\Filter\FilterFactory;
@@ -17,170 +17,94 @@ use Padam87\SearchBundle\Filter\FilterFactory;
 class DefaultController extends Controller
 {
     /**
+     * Simple example
+     * 
      * @Route("/")
      * @Template()
      */
     public function indexAction()
     {
-        $Customer = new Entity\Customer();
-        $form = $this->createForm(new Form\CustomerSearchType(), $Customer);
+        $product = new Entity\Product();
+        $form = $this->createForm(new Form\ProductSearchType(), $product);
         
         $request = $this->getRequest();
 
         if('POST' === $request->getMethod()) {
             $form->bindRequest($request);
-            
-            $Customer = $form->getData();
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
-        $qb = $em->getRepository('AcmePizzaBundle:Customer')->createQueryBuilder('c');
+        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
         
-        $factory = new FilterFactory($em);
+        $qb = $factory->create($form->getData(), 'p')->createQueryBuilder('Padam87BaseBundle:Product');
         
-        $filter = $factory->create($Customer, 'c');
-        if($filter->toExpr() != false) {
-            $qb->where($filter->toExpr());
-        
-            foreach($filter->toParameters() as $parameter) {
-                $qb->setParameter($parameter['token'], $parameter['value']);
-            }
-        }
-        
-        $customers = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
+        $products = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
         
         return array(
-            'customers' => $customers,
+            'products' => $products,
             'form' => $form->createView(),
         );
     }
     
     /**
+     * Combining two forms to build a query
+     * 
      * @Route("/orders")
      * @Template()
      */
     public function ordersAction()
     {
-        $Order = new Entity\Order();
-        $Customer = new Entity\Customer();
-        $orderForm = $this->createForm(new Form\OrderSearchType(), $Order);
-        $customerForm = $this->createForm(new Form\CustomerSearchType(), $Customer);
+        $order = new Entity\Order();
+        $orderForm = $this->createForm(new Form\OrderSearchType(), $order);
+        
+        $orderItem = new Entity\OrderItem();
+        $orderItemForm = $this->createForm(new Form\OrderItemSearchType(), $orderItem);
         
         $request = $this->getRequest();
 
         if('POST' === $request->getMethod()) {
             $orderForm->bindRequest($request);
-            $customerForm->bindRequest($request);
-            
-            $Order = $orderForm->getData();
-            $Customer = $customerForm->getData();
+            $orderItemForm->bindRequest($request);
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
-        $qb = $em->getRepository('AcmePizzaBundle:Order')->createQueryBuilder('o');
+        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
         
-        $factory = new FilterFactory($em);
-        
-        $orderFilter = $factory->create($Order, 'o');
-        if($orderFilter->toExpr() != false) {
-            $qb->where($orderFilter->toExpr());
-        
-            foreach($orderFilter->toParameters() as $parameter) {
-                $qb->setParameter($parameter['token'], $parameter['value']);
-            }
-        }
-        
-        $customerFilter = $factory->create($Customer, 'c');
-        if($customerFilter->toExpr() != false) {
-            $qb->join('o.customer', 'c', 'WITH', $customerFilter->toExpr());
-
-            foreach($customerFilter->toParameters() as $parameter) {
-                $qb->setParameter($parameter['token'], $parameter['value']);
-            }
-        }
+        $qb =
+            $factory->create($orderItemForm->getData(), 'i')->applyToQueryBuilder(
+                $factory->create($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order'), 'items'
+            );
        
         $orders = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
         
         return array(
             'orders' => $orders,
             'orderForm' => $orderForm->createView(),
-            'customerForm' => $customerForm->createView(),
+            'orderItemForm' => $orderItemForm->createView(),
         );
     }
     
     /**
-     * @Route("/orders-by-item")
+     * Using collections for filtering directly
+     * 
+     * @Route("/orders/by-collection")
      * @Template()
      */
-    public function ordersByItemAction()
+    public function ordersByCollectionAction()
     {
-        $Order = new Entity\Order();
-        $orderForm = $this->createForm(new Form\OrderSearchType(), $Order);
+        $order = new Entity\Order();
+        $order->addItem(new Entity\OrderItem()); // added two items, this should be done on the frontend with js prototype
+        $order->addItem(new Entity\OrderItem());
+        
+        $orderForm = $this->createForm(new Form\OrderSearchType(), $order);
         
         $request = $this->getRequest();
 
         if('POST' === $request->getMethod()) {
             $orderForm->bindRequest($request);
-            
-            $Order = $orderForm->getData();
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
-        $qb = $em->getRepository('AcmePizzaBundle:Order')->createQueryBuilder('o');
+        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
         
-        $factory = new FilterFactory($em);
-        
-        $orderFilter = $factory->create($Order->getItems(), 'i');
-        
-        if($orderFilter->toExpr() != false) {
-            $qb->join('o.items', 'i', 'WITH', $orderFilter->toExpr());
-        
-            foreach($orderFilter->toParameters() as $parameter) {
-                $qb->setParameter($parameter['token'], $parameter['value']);
-            }
-        }
-       
-        $orders = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
-        
-        return array(
-            'orders' => $orders,
-            'orderForm' => $orderForm->createView(),
-        );
-    }
-    
-    /**
-     * @Route("/orders-by-item-and")
-     * @Template()
-     */
-    public function ordersByItemAndAction()
-    {
-        $Order = new Entity\Order();
-        $orderForm = $this->createForm(new Form\OrderSearchType(), $Order);
-        
-        $request = $this->getRequest();
-
-        if('POST' === $request->getMethod()) {
-            $orderForm->bindRequest($request);
-            
-            $Order = $orderForm->getData();
-        }
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        $qb = $em->getRepository('AcmePizzaBundle:Order')->createQueryBuilder('o');
-        
-        $factory = new FilterFactory($em);
-        
-        foreach($Order->getItems() as $k => $Item) {
-            $itemFilter = $factory->create($Item, 'i'. $k);
-
-            if($itemFilter->toExpr() != false) {
-                $qb->join('o.items', 'i' . $k, 'WITH', $itemFilter->toExpr());
-
-                foreach($itemFilter->toParameters() as $parameter) {
-                    $qb->setParameter($parameter['token'], $parameter['value']);
-                }
-            }
-        }
+        $qb = $factory->create($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order');
         
         $orders = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
         
@@ -191,32 +115,36 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/orders-by-item-count")
+     * @Route("/orders/by-collection/and")
      * @Template()
      */
-    public function ordersByItemCountAction()
+    public function ordersByCollectionAndAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $qb = $em->getRepository('AcmePizzaBundle:Order')->createQueryBuilder('o');
+        $order = new Entity\Order();
+        $order->addItem(new Entity\OrderItem());
+        $order->addItem(new Entity\OrderItem());
         
-        $factory = new FilterFactory($em);
+        $orderForm = $this->createForm(new Form\OrderSearchType(), $order);
         
-        $itemFilter = $factory->create(array(
-            'count>=' => 2
-        ), 'i');
-        
-        if($itemFilter->toExpr() != false) {
-            $qb->join('o.items', 'i', 'WITH', $itemFilter->toExpr());
+        $request = $this->getRequest();
 
-            foreach($itemFilter->toParameters() as $parameter) {
-                $qb->setParameter($parameter['token'], $parameter['value']);
-            }
+        if('POST' === $request->getMethod()) {
+            $orderForm->bindRequest($request);
+            
+            $order = $orderForm->getData();
         }
+        
+        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
+        
+        $qb = $factory->create($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order', array(
+            'items' => 'AND'
+        ));
         
         $orders = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
         
         return array(
             'orders' => $orders,
+            'orderForm' => $orderForm->createView(),
         );
     }
 }
