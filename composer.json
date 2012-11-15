@@ -2,6 +2,7 @@
     "name": "padam87/search-bundle",
     "type": "symfony-bundle",
     "description": "Symfony2 SearchBundle",
+    "keywords": ["symfony", "search"],
     "homepage": "https://github.com/Padam87/SearchBundle",
     "authors": [
         {

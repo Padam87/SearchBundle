@@ -4,46 +4,43 @@ Search bundle for Symfony2. Use entities, collections for search directly.
 
 ## Simple example ##
 
-		$product = new Entity\Product();
-        $form = $this->createForm(new Form\ProductSearchType(), $product);
-        
-        $request = $this->getRequest();
+	$product = new Entity\Product();
+    $form = $this->createForm(new Form\ProductSearchType(), $product);
+    
+    $request = $this->getRequest();
 
-        if('POST' === $request->getMethod()) {
-            $form->bindRequest($request);
-        }
-        
-        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
+    if('POST' === $request->getMethod()) {
+        $form->bindRequest($request);
+    }
+    
+    $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
 
-		/* HERE IS THE IMPORTANT PART */
-        $qb = $factory->create($form->getData(), 'p')->createQueryBuilder('Padam87BaseBundle:Product');
-        
-        $products = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
+	/* HERE IS THE IMPORTANT PART */
+    $qb = $factory->create($form->getData(), 'p')->createQueryBuilder('Padam87BaseBundle:Product');
+    
+    $products = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
 
 ## More examples
 
 More examples can be found in the **DefaultCountroller**
 
-### Routing:
+### Composer
 
-		Padam87SearchBundle:
-		    resource: "@Padam87SearchBundle/Controller/"
-		    type:     annotation
-		    prefix:   /
+    "padam87/search-bundle": "dev-master",
 
 ### AppKernel:
 
-        $bundles = array(
-			...
-            new Padam87\SearchBundle\Padam87SearchBundle(),
-        );
+    $bundles = array(
+		...
+        new Padam87\SearchBundle\Padam87SearchBundle(),
+    );        
 
-### Autoload:
+### Routing (for working examples):
 
-		$loader->registerNamespaces(array(
-		    ...
-		    'Padam87'          => __DIR__.'/../vendor/bundles',
-		));
+	Padam87SearchBundle:
+	    resource: "@Padam87SearchBundle/Controller/"
+	    type:     annotation
+	    prefix:   /
 
 ## Dependencies
 
