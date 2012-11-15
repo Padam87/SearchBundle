@@ -1,0 +1,16 @@
+{
+    "name": "padam87/search-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony2 SearchBundle",
+    "homepage": "https://github.com/Padam87/SearchBundle",
+    "authors": [
+        {
+            "name": "Adam Prager",
+            "email": "prager.adam87@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Padam87\\SearchBundle": "" }
+    },
+    "target-dir": "Padam87/SearchBundle"
+}
