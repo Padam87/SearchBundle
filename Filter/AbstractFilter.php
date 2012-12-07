@@ -54,12 +54,12 @@
                         if($this->_em->getClassMetadata($this->entityName)->isCollectionValuedAssociation($name)) {
                             $factory = new FilterFactory($this->_em);
                             
-                            if(isset($this->collectionHandling[$name]) && $this->collectionHandling[$name] == 'AND') {
+                            if(isset($this->collectionHandling[$name]) && $this->collectionHandling[$name] == 'AND' && $this->get($name) != null) {
                                 foreach($this->get($name) as $k => $filter) {
                                     $queryBuilder = $factory->create($filter, $name . $k)->applyToQueryBuilder($queryBuilder, $name);
                                 }
                             }
-                            else {
+                            else if ($this->get($name) != null) {
                                 $queryBuilder = $factory->create($this->get($name), $name)->applyToQueryBuilder($queryBuilder, $name);
                             }
                         }
