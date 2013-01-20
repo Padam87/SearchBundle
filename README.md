@@ -8,27 +8,27 @@ Check the [DefaultController](https://github.com/Padam87/SearchBundle/blob/maste
 
 ## 2. Installation ##
 
-### 2.1 Composer ###
+### 2.1. Composer ###
 
     "padam87/search-bundle": "dev-master",
 
-### 2.2 AppKernel ###
+### 2.2. AppKernel ###
 
     $bundles = array(
 		...
         new Padam87\SearchBundle\Padam87SearchBundle(),
     );
 
-### 2.3 Check config.yml ###
+### 2.3. Check config.yml ###
 
-	Don't forget to add the bundle, if all_bundles is set to false
+Don't forget to add the bundle, if all_bundles is set to false
 
 	jms_di_extra:
 	    locations:
 	        all_bundles: false
 	        bundles: [Padam87SearchBundle]
 
-### 2.4 Routing (optional, for working examples) ###
+### 2.4. Routing (optional, for working examples) ###
 
 	Padam87SearchBundle:
 	    resource: "@Padam87SearchBundle/Controller/"
