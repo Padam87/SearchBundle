@@ -34,9 +34,9 @@
         <form action="{{ path('padam87_search_default_orders') }}" method="POST">
             {{ form_row(orderForm._token) }}
             {{ form_row(orderForm.buyerName) }}
-                
+
             <hr />
-            
+
             {{ form_rest(orderItemForm) }}
             <div class="form-actions">
                 <button class="btn btn-primary" type="submit">Search</button>

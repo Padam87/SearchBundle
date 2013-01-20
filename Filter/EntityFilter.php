@@ -21,24 +21,24 @@ class EntityFilter extends AbstractFilter
     }
 
     public function toArray()
-    {      
+    {
         $fields = $this->_em->getClassMetadata(get_class($this->entity))->getFieldNames();
         $associations = $this->_em->getClassMetadata(get_class($this->entity))->getAssociationNames();
 
-        foreach($associations as $name) {
-            if(!$this->_em->getClassMetadata(get_class($this->entity))->isCollectionValuedAssociation($name)) {                    
+        foreach ($associations as $name) {
+            if (!$this->_em->getClassMetadata(get_class($this->entity))->isCollectionValuedAssociation($name)) {
                 $fields[] = $name;
             }
         }
 
         $filter = array();
 
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
             if($field == 'id') continue;
-            
+
             $filter[$field] = $this->get($field);
 
-            if(is_object($filter[$field]) && method_exists($filter[$field], 'getId')) {
+            if (is_object($filter[$field]) && method_exists($filter[$field], 'getId')) {
                 $filter[$field] = $filter[$field]->getId();
             }
         }
@@ -57,11 +57,11 @@ class EntityFilter extends AbstractFilter
 
         $expressions = array();
 
-        foreach($this->toArray() as $name => $value) {
+        foreach ($this->toArray() as $name => $value) {
             $expressions[] = $ExprBuilder->getExpression($this->alias . '.' . $name, $value);
         }
 
-        if(empty($expressions)) {
+        if (empty($expressions)) {
             return false;
         }
 
@@ -76,7 +76,7 @@ class EntityFilter extends AbstractFilter
 
         $parameters = array();
 
-        foreach($this->toArray() as $name => $value) {
+        foreach ($this->toArray() as $name => $value) {
             $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
 
             if($parameter != NULL) $parameters[] = $parameter;
@@ -84,11 +84,11 @@ class EntityFilter extends AbstractFilter
 
         return $parameters;
     }
-    
+
     public function get($field)
     {
         $getter = "get" . str_replace(" ", "", ucwords(str_replace("_", " ", $field)));
-        
+
         return $this->entity->$getter();
     }
 }
