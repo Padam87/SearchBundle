@@ -9,8 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Padam87\BaseBundle\Entity as Entity;
 use Padam87\SearchBundle\Form as Form;
 
-use Padam87\SearchBundle\Filter\FilterFactory;
-
 /**
 * @Route("/search")
 */
@@ -33,9 +31,7 @@ class DefaultController extends Controller
             $form->bindRequest($request);
         }
 
-        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
-
-        $qb = $factory->create($form->getData(), 'p')->createQueryBuilder('Padam87BaseBundle:Product');
+        $qb = $this->get('search')->createFilter($form->getData(), 'p')->createQueryBuilder('Padam87BaseBundle:Product');
 
         $products = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
 
@@ -66,11 +62,10 @@ class DefaultController extends Controller
             $orderItemForm->bindRequest($request);
         }
 
-        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
-
         $qb =
-            $factory->create($orderItemForm->getData(), 'i')->applyToQueryBuilder(
-                $factory->create($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order'), 'items'
+            $this->get('search')->createFilter($orderItemForm->getData(), 'i')->applyToQueryBuilder(
+                $this->get('search')->createFilter($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order'),
+                'items'
             );
 
         $orders = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
@@ -102,9 +97,7 @@ class DefaultController extends Controller
             $orderForm->bindRequest($request);
         }
 
-        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
-
-        $qb = $factory->create($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order');
+        $qb = $this->get('search')->createFilter($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order');
 
         $orders = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
 
@@ -134,9 +127,7 @@ class DefaultController extends Controller
             $order = $orderForm->getData();
         }
 
-        $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
-
-        $qb = $factory->create($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order', array(
+        $qb = $this->get('search')->createFilter($orderForm->getData(), 'o')->createQueryBuilder('Padam87BaseBundle:Order', array(
             'items' => 'AND'
         ));
 

@@ -2,48 +2,41 @@
 
 Search bundle for Symfony2. Use entities, collections for search directly.
 
-## Simple example ##
+## 1. Examples ##
 
-	$product = new Entity\Product();
-    $form = $this->createForm(new Form\ProductSearchType(), $product);
-    
-    $request = $this->getRequest();
+Check the [DefaultController](https://github.com/Padam87/SearchBundle/blob/master/Controller/DefaultController.php).
 
-    if('POST' === $request->getMethod()) {
-        $form->bindRequest($request);
-    }
-    
-    $factory = new FilterFactory($this->getDoctrine()->getEntityManager());
+## 2. Installation ##
 
-	/* HERE IS THE IMPORTANT PART */
-    $qb = $factory->create($form->getData(), 'p')->createQueryBuilder('Padam87BaseBundle:Product');
-    
-    $products = $qb->setFirstResult(0)->setMaxResults(100)->getQuery()->getResult();
-
-## More examples
-
-More examples can be found in the **DefaultCountroller**
-
-### Composer
+### 2.1 Composer ###
 
     "padam87/search-bundle": "dev-master",
 
-### AppKernel:
+### 2.2 AppKernel ###
 
     $bundles = array(
 		...
         new Padam87\SearchBundle\Padam87SearchBundle(),
-    );        
+    );
 
-### Routing (for working examples):
+### 2.3 Check config.yml ###
+
+	Don't forget to add the bundle, if all_bundles is set to false
+
+	jms_di_extra:
+	    locations:
+	        all_bundles: false
+	        bundles: [Padam87SearchBundle]
+
+### 2.4 Routing (optional, for working examples) ###
 
 	Padam87SearchBundle:
 	    resource: "@Padam87SearchBundle/Controller/"
 	    type:     annotation
 	    prefix:   /
 
-## Dependencies
+## 3. Dependencies
 
-None. If you would like to test the examples in the DefaultController, you will need the AcmePizzaBundle, and optionally Twitter's bootsrtap for design.
+None.
 
-
+For working examples, you will need the [Padam87BaseBundle](https://github.com/Padam87/BaseBundle), and optionally Twitter's bootsrtap for design.
