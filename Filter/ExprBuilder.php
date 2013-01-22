@@ -61,7 +61,11 @@ class ExprBuilder extends OperatorHandler
                     break;
             }
         } else {
-            $expression = $Expr->eq($name, $this->createToken($name, $counter));
+            if (is_array($value)) {
+                $expression = $Expr->in($name, $this->createToken($name, $counter));
+            } else {
+                $expression = $Expr->eq($name, $this->createToken($name, $counter));
+            }
         }
 
         return $expression;
