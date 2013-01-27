@@ -44,7 +44,7 @@ class EntityFilter extends AbstractFilter
         }
 
         return array_filter($filter, function ($item) {
-            if($item === false) return true; // boolean field type
+            if($item === false && $item != null) return true; // boolean field type
             if(empty($item)) return false;
 
             return true;

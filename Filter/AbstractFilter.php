@@ -37,7 +37,7 @@ abstract class AbstractFilter
         return $this->applyToQueryBuilder($queryBuilder);
     }
 
-    public function applyToQueryBuilder(QueryBuilder $queryBuilder, $joinName = NULL)
+    public function applyToQueryBuilder(QueryBuilder $queryBuilder, $joinName = NULL, $joinType = 'inner')
     {
         if ($this->alias == $queryBuilder->getRootAlias()) {
             if ($this->toExpr() != false) {
@@ -66,8 +66,16 @@ abstract class AbstractFilter
                 }
             }
         } elseif ($joinName != NULL) {
-            if ($this->toExpr() != false) {
-                $queryBuilder->join($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
+            if ($this->toExpr() != false || $joinType = 'left') {
+                switch ($joinType) {
+                    case 'left':
+                        $queryBuilder->leftJoin($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
+                        
+                        break;
+                    case 'inner':
+                    default:
+                        $queryBuilder->join($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
+                }
 
                 foreach ($this->toParameters() as $parameter) {
                     $queryBuilder->setParameter($parameter['token'], $parameter['value']);
