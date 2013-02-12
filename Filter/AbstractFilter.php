@@ -40,6 +40,8 @@ abstract class AbstractFilter
     public function applyToQueryBuilder(QueryBuilder $queryBuilder, $joinName = NULL, $joinType = 'inner')
     {
         if ($this->alias == $queryBuilder->getRootAlias()) {
+            $queryBuilder->select("DISTINCT " . $this->alias);
+            
             if ($this->toExpr() != false) {
                 $queryBuilder->where($this->toExpr());
 
