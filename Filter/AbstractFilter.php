@@ -41,7 +41,7 @@ abstract class AbstractFilter
     {
         if ($this->alias == $queryBuilder->getRootAlias()) {
             $queryBuilder->select("DISTINCT " . $this->alias);
-            
+
             if ($this->toExpr() != false) {
                 $queryBuilder->where($this->toExpr());
 
@@ -72,7 +72,7 @@ abstract class AbstractFilter
                 switch ($joinType) {
                     case 'left':
                         $queryBuilder->leftJoin($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
-                        
+
                         break;
                     case 'inner':
                     default:
