@@ -56,13 +56,15 @@ abstract class AbstractFilter
                 foreach ($associations as $name) {
                     if ($this->_em->getClassMetadata($this->entityName)->isCollectionValuedAssociation($name)) {
                         $factory = new FilterFactory($this->_em);
-
-                        if (isset($this->collectionHandling[$name]) && $this->collectionHandling[$name] == 'AND' && $this->get($name) != null) {
-                            foreach ($this->get($name) as $k => $filter) {
-                                $queryBuilder = $factory->create($filter, $name . $k)->applyToQueryBuilder($queryBuilder, $name);
+                        
+                        if ($this->get($name) != null && $this->get($name)->count() > 0) {
+                            if (isset($this->collectionHandling[$name]) && $this->collectionHandling[$name] == 'AND') {
+                                foreach ($this->get($name) as $k => $filter) {
+                                    $queryBuilder = $factory->create($filter, $name . $k)->applyToQueryBuilder($queryBuilder, $name);
+                                }
+                            } else {
+                                $queryBuilder = $factory->create($this->get($name), $name)->applyToQueryBuilder($queryBuilder, $name);
                             }
-                        } elseif ($this->get($name) != null) {
-                            $queryBuilder = $factory->create($this->get($name), $name)->applyToQueryBuilder($queryBuilder, $name);
                         }
                     }
                 }
