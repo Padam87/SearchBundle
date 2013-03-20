@@ -3,7 +3,7 @@
 namespace Padam87\SearchBundle\Filter;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class FilterFactory
 {
@@ -46,6 +46,6 @@ class FilterFactory
 
     protected function isCollection($filter)
     {
-        return $filter instanceof ArrayCollection;
+        return $filter instanceof Collection;
     }
 }

@@ -56,7 +56,7 @@ class EntityFilter extends AbstractFilter
         $ExprBuilder = new ExprBuilder();
 
         $expressions = array();
-
+        
         foreach ($this->toArray() as $name => $value) {
             $expressions[] = $ExprBuilder->getExpression($this->alias . '.' . $name, $value);
         }
