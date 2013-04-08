@@ -9,8 +9,9 @@ abstract class AbstractFilter
 {
     protected $_em;
     protected $alias;
-    protected $entityName = NULL;
+    protected $entityName = null;
     protected $collectionHandling = array();
+    protected $defaultOperators = array();
 
     public function __construct(EntityManager $em = null)
     {
@@ -27,6 +28,31 @@ abstract class AbstractFilter
         return false;
     }
 
+    public function setDefaultOperator($field, $operator)
+    {
+        $this->defaultOperators[$field] = $operator;
+
+        return $this;
+    }
+
+    protected function processDefaultOperator($field, $value)
+    {
+        $operatorHandler = new OperatorHandler();
+
+        if (isset($this->defaultOperators[$field])) {
+            if (isset(OperatorHandler::$nameOperators[$this->defaultOperators[$field]]) &&
+                    $operatorHandler->getOperator($field, OperatorHandler::OPERATOR_NAME) === false) {
+                $field = $field . $this->defaultOperators[$field];
+            }
+            if (isset(OperatorHandler::$valueOperators[$this->defaultOperators[$field]]) &&
+                    $operatorHandler->getOperator($field, OperatorHandler::OPERATOR_VALUE) === false) {
+                $value = $value . $this->defaultOperators[$field];
+            }
+        }
+
+        return compact('field', 'value');
+    }
+
     public function createQueryBuilder($entityName, $collectionHandling = array())
     {
         $this->entityName = $entityName;
@@ -37,7 +63,7 @@ abstract class AbstractFilter
         return $this->applyToQueryBuilder($queryBuilder);
     }
 
-    public function applyToQueryBuilder(QueryBuilder $queryBuilder, $joinName = NULL, $joinType = 'inner')
+    public function applyToQueryBuilder(QueryBuilder $queryBuilder, $joinName = null, $joinType = 'inner')
     {
         if ($this->alias == $queryBuilder->getRootAlias()) {
             $queryBuilder->select("DISTINCT " . $this->alias);
@@ -50,13 +76,13 @@ abstract class AbstractFilter
                 }
             }
 
-            if ($this->entityName != NULL) {
+            if ($this->entityName != null) {
                 $associations = $this->_em->getClassMetadata($this->entityName)->getAssociationNames();
 
                 foreach ($associations as $name) {
                     if ($this->_em->getClassMetadata($this->entityName)->isCollectionValuedAssociation($name)) {
                         $factory = new FilterFactory($this->_em);
-                        
+
                         if ($this->get($name) != null && $this->get($name)->count() > 0) {
                             if (isset($this->collectionHandling[$name]) && $this->collectionHandling[$name] == 'AND') {
                                 foreach ($this->get($name) as $k => $filter) {
@@ -69,7 +95,7 @@ abstract class AbstractFilter
                     }
                 }
             }
-        } elseif ($joinName != NULL) {
+        } elseif ($joinName != null) {
             if ($this->toExpr() != false || $joinType = 'left') {
                 switch ($joinType) {
                     case 'left':

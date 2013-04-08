@@ -36,7 +36,11 @@ class EntityFilter extends AbstractFilter
         foreach ($fields as $field) {
             if($field == 'id') continue;
 
-            $filter[$field] = $this->get($field);
+            $value = $this->get($field);
+
+            extract($this->processDefaultOperator($field, $value));
+
+            $filter[$field] = $value;
 
             if (is_object($filter[$field]) && method_exists($filter[$field], 'getId')) {
                 $filter[$field] = $filter[$field]->getId();

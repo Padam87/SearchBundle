@@ -21,24 +21,21 @@ class ExprBuilder extends OperatorHandler
     {
         $Expr = new Expr();
 
-        if (false !== $operator = $this->getOperator($value, $this->valueOperators)) {
+        if (false !== $operator = $this->getOperator($value, self::OPERATOR_VALUE)) {
             switch ($operator) {
                 case '*':
-//						$expression = $Expr->like($name, $this->createToken($name));
-//						no ILIKE in doctrine? me likey... NOT
-
                     $expression = $Expr->lower($name) . " LIKE " . $this->createToken($name, $counter);
                     break;
                 case 'NULL':
-                    if ('!=' == $this->getOperator($name, $this->nameOperators)) {
-                        $expression = $this->cleanOperators($name, $this->nameOperators) . " IS NOT NULL";
+                    if ('!=' == $this->getOperator($name, self::OPERATOR_VALUE)) {
+                        $expression = $this->cleanOperators($name, self::OPERATOR_VALUE) . " IS NOT NULL";
                     } else {
                         $expression = $Expr->eq($name, $this->createToken($name, $counter));
                     }
                     break;
             }
-        } elseif (false !== $operator = $this->getOperator($name, $this->nameOperators)) {
-            $name = $this->cleanOperators($name, $this->nameOperators);
+        } elseif (false !== $operator = $this->getOperator($name, self::OPERATOR_NAME)) {
+            $name = $this->cleanOperators($name, self::OPERATOR_NAME);
             switch ($operator) {
                 case '>=':
                     $expression = $Expr->gte($name, $this->createToken($name, $counter));
@@ -73,7 +70,7 @@ class ExprBuilder extends OperatorHandler
 
     protected function createToken($name, $counter = false)
     {
-        $name = $this->cleanOperators($name, $this->nameOperators);
+        $name = $this->cleanOperators($name, self::OPERATOR_NAME);
 
         $token = ':' . str_replace('.', '_', $name) . ($counter === false ? '' : $counter);
 

@@ -22,11 +22,22 @@ class ArrayFilter extends AbstractFilter
 
     public function toArray()
     {
-        return array_filter($this->array, function ($item) {
-            if(empty($item)) return false;
+        foreach ($this->array as $field => $value) {
+            unset($this->array[$field]);
 
-            return true;
-        });
+            if(empty($item)) {
+
+                continue;
+            }
+
+            $value = $this->get($field);
+
+            extract($this->processDefaultOperator($field, $value));
+
+            $this->array[$field] = $value;
+        }
+
+        return $this->array;
     }
 
     public function toExpr()
