@@ -25,13 +25,6 @@ class ArrayFilter extends AbstractFilter
         foreach ($this->array as $field => $value) {
             unset($this->array[$field]);
 
-            if(empty($item)) {
-
-                continue;
-            }
-
-            $value = $this->get($field);
-
             extract($this->processDefaultOperator($field, $value));
 
             $this->array[$field] = $value;
