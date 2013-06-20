@@ -96,7 +96,7 @@ abstract class AbstractFilter
                 }
             }
         } elseif ($joinName != null) {
-            if ($this->toExpr() != false || $joinType = 'left') {
+            if ($this->toExpr() != false || $joinType == 'left') {
                 switch ($joinType) {
                     case 'left':
                         $queryBuilder->leftJoin($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
