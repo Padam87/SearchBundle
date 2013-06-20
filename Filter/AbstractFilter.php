@@ -99,16 +99,20 @@ abstract class AbstractFilter
             if ($this->toExpr() != false || $joinType == 'left') {
                 switch ($joinType) {
                     case 'left':
-                        $queryBuilder->leftJoin($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
+                        $queryBuilder->leftJoin($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias);
 
                         break;
                     case 'inner':
                     default:
-                        $queryBuilder->join($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias, 'WITH', $this->toExpr());
+                        $queryBuilder->join($queryBuilder->getRootAlias() . '.' . $joinName, $this->alias);
                 }
 
-                foreach ($this->toParameters() as $parameter) {
-                    $queryBuilder->setParameter($parameter['token'], $parameter['value']);
+                if ($this->toExpr() != false) {
+                    $queryBuilder->andWhere($this->toExpr());
+
+                    foreach ($this->toParameters() as $parameter) {
+                        $queryBuilder->setParameter($parameter['token'], $parameter['value']);
+                    }
                 }
             }
         }
