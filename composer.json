@@ -20,5 +20,8 @@
         "doctrine/doctrine-bundle": "*",
         "jms/di-extra-bundle": "*"
     },
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
+    },
     "target-dir": "Padam87/SearchBundle"
 }

@@ -5,6 +5,10 @@
         <server name="KERNEL_DIR" value="./Tests/App/app" />
     </php>
 
+    <logging>
+        <log type="coverage-clover" target="../../build/logs/clover.xml"/>
+    </logging>
+
     <testsuites>
         <testsuite name="Padam87SearchBundle">
             <directory suffix="Test.php">./Tests</directory>

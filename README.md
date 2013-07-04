@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Padam87/SearchBundle.png)](https://travis-ci.org/Padam87/SearchBundle)
+[![Coverage Status](https://coveralls.io/repos/Padam87/SearchBundle/badge.png)](https://coveralls.io/r/Padam87/SearchBundle)
 
 # Search Bundle #
 
