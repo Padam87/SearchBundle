@@ -10,6 +10,7 @@ class ParameterBuilder extends OperatorHandler
      * @var array
      */
     private $tokens = array();
+    
     /**
      * Creates the parameter for the DQL Query
      *
