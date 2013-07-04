@@ -6,20 +6,28 @@ use Padam87\SearchBundle\Filter\ExprBuilder;
 use Padam87\SearchBundle\Filter\ParameterBuilder;
 
 use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\EntityManager;
 
-class ArrayFilter extends AbstractFilter
+class ArrayFilter extends AbstractFilter implements FilterInterface
 {
+    /**
+     * The filter array
+     *
+     * @var array
+     */
     protected $array;
 
-    public function __construct(EntityManager $em, $entity, $alias)
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($filter, $alias)
     {
-        parent::__construct($em);
-
-        $this->array = $entity;
+        $this->array = $filter;
         $this->alias = $alias;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         foreach ($this->array as $field => $value) {
@@ -33,6 +41,9 @@ class ArrayFilter extends AbstractFilter
         return $this->array;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toExpr()
     {
         $ExprBuilder = new ExprBuilder();
@@ -50,6 +61,9 @@ class ArrayFilter extends AbstractFilter
         return new Expr\Andx($expressions);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toParameters()
     {
         $ParamterBuilder = new ParameterBuilder();
@@ -67,8 +81,19 @@ class ArrayFilter extends AbstractFilter
         return $parameters;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function get($field)
     {
         return isset($this->array[$field]) ? $this->array[$field] : NULL;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMultipleLevel()
+    {
+        return false;
     }
 }

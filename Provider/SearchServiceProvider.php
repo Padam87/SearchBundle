@@ -12,12 +12,12 @@ use Padam87\SearchBundle\Filter\FilterFactory;
 class SearchServiceProvider
 {
     /**
-     * @var EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
     /**
-     * @var FilterFactory
+     * @var \Padam87\SearchBundle\Filter\FilterFactory
      */
     private $factory;
 
@@ -35,7 +35,7 @@ class SearchServiceProvider
     /**
      * Gets the FilterFactory.
      *
-     * @return FilterFactory
+     * @return \Padam87\SearchBundle\Filter\FilterFactory
      */
     public function getFactory()
     {
@@ -45,7 +45,7 @@ class SearchServiceProvider
     /**
      * Creates a filter
      *
-     * @return AbstractFilter
+     * @return \Padam87\SearchBundle\Filter\FilterInterface
      */
     public function createFilter($filter, $alias)
     {

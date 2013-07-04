@@ -7,27 +7,54 @@ use Doctrine\ORM\QueryBuilder;
 
 abstract class AbstractFilter
 {
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
     protected $_em;
+
+    /**
+     * Alias for the query entity
+     *
+     * @var string
+     */
     protected $alias;
+
+    /**
+     * Name of the filtered entity
+     *
+     * @var string
+     */
     protected $entityName = null;
+
+    /**
+     * Specifies the search method for collections (AND / OR), defaults to OR if not specified
+     *
+     * @var array
+     */
     protected $collectionHandling = array();
+
+    /**
+     * Specifies the search method for a field, defults to "=" if not specified
+     *
+     * @var array
+     */
     protected $defaultOperators = array();
 
-    public function __construct(EntityManager $em = null)
-    {
-        $this->setEntityManager($em);
-    }
-
+    /**
+     * @param \Doctrine\ORM\EntityManager $em
+     */
     public function setEntityManager(EntityManager $em = null)
     {
         $this->_em = $em;
     }
 
-    public function isMultipleLevel()
-    {
-        return false;
-    }
-
+    /**
+     * Sets the default operator to a field
+     *
+     * @param string $field
+     * @param string $operator
+     * @return \Padam87\SearchBundle\Filter\AbstractFilter
+     */
     public function setDefaultOperator($field, $operator)
     {
         $this->defaultOperators[$field] = $operator;
@@ -35,6 +62,13 @@ abstract class AbstractFilter
         return $this;
     }
 
+    /**
+     * Finds the operator for a field
+     *
+     * @param string $field
+     * @param string $value
+     * @return type
+     */
     protected function processDefaultOperator($field, $value)
     {
         $operatorHandler = new OperatorHandler();
@@ -53,6 +87,13 @@ abstract class AbstractFilter
         return compact('field', 'value');
     }
 
+    /**
+     * Creates a query builder based on the filter
+     *
+     * @param string $entityName
+     * @param array $collectionHandling
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function createQueryBuilder($entityName, $collectionHandling = array())
     {
         $this->entityName = $entityName;
@@ -63,6 +104,14 @@ abstract class AbstractFilter
         return $this->applyToQueryBuilder($queryBuilder);
     }
 
+    /**
+     * Applies the filter to an already existing query builder
+     *
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param string $joinName
+     * @param string $joinType
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function applyToQueryBuilder(QueryBuilder $queryBuilder, $joinName = null, $joinType = 'inner')
     {
         if ($this->alias == $queryBuilder->getRootAlias()) {
@@ -119,12 +168,4 @@ abstract class AbstractFilter
 
         return $queryBuilder;
     }
-
-    abstract public function toArray();
-
-    abstract public function toExpr();
-
-    abstract public function toParameters();
-
-    abstract public function get($field);
 }

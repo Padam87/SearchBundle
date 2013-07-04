@@ -3,11 +3,6 @@ namespace Padam87\SearchBundle\Filter;
 
 use Doctrine\ORM\Query\Expr;
 
-/**
- * Expression Builder
- *
- * @author Adam Prager <adam.prager@netlife.hu>
- */
 class ExprBuilder extends OperatorHandler
 {
     /**
@@ -17,6 +12,14 @@ class ExprBuilder extends OperatorHandler
      */
     private $tokens = array();
 
+    /**
+     * Creates the DQL expression for a filter parameter
+     *
+     * @param string $name
+     * @param mixed $value
+     * @param mixed $counter
+     * @return \Doctrine\ORM\Query\Expr
+     */
     public function getExpression($name, $value, $counter = false)
     {
         $Expr = new Expr();
@@ -68,6 +71,13 @@ class ExprBuilder extends OperatorHandler
         return $expression;
     }
 
+    /**
+     * Creates the token for a parameter
+     *
+     * @param string $name
+     * @param mixed $counter
+     * @return sting
+     */
     protected function createToken($name, $counter = false)
     {
         $name = $this->cleanOperators($name, self::OPERATOR_NAME);

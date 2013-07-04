@@ -6,20 +6,26 @@ use Padam87\SearchBundle\Filter\ExprBuilder;
 use Padam87\SearchBundle\Filter\ParameterBuilder;
 
 use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\EntityManager;
 
-class EntityFilter extends AbstractFilter
+class EntityFilter extends AbstractFilter implements FilterInterface
 {
+    /**
+     * The filter entity
+     */
     protected $entity;
 
-    public function __construct(EntityManager $em, $entity, $alias)
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct($filter, $alias)
     {
-        parent::__construct($em);
-
-        $this->entity = $entity;
+        $this->entity = $filter;
         $this->alias = $alias;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toArray()
     {
         $fields = $this->_em->getClassMetadata(get_class($this->entity))->getFieldNames();
@@ -55,12 +61,15 @@ class EntityFilter extends AbstractFilter
         });
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toExpr()
     {
         $ExprBuilder = new ExprBuilder();
 
         $expressions = array();
-        
+
         foreach ($this->toArray() as $name => $value) {
             $expressions[] = $ExprBuilder->getExpression($this->alias . '.' . $name, $value);
         }
@@ -74,6 +83,9 @@ class EntityFilter extends AbstractFilter
         return $expr->__toString();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toParameters()
     {
         $ParamterBuilder = new ParameterBuilder();
@@ -89,10 +101,21 @@ class EntityFilter extends AbstractFilter
         return $parameters;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function get($field)
     {
         $getter = "get" . str_replace(" ", "", ucwords(str_replace("_", " ", $field)));
 
         return $this->entity->$getter();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isMultipleLevel()
+    {
+        return false;
     }
 }

@@ -2,11 +2,6 @@
 
 namespace Padam87\SearchBundle\Filter;
 
-/**
- * Expression Builder
- *
- * @author Adam Prager <adam.prager@netlife.hu>
- */
 class ParameterBuilder extends OperatorHandler
 {
     /**
@@ -15,7 +10,14 @@ class ParameterBuilder extends OperatorHandler
      * @var array
      */
     private $tokens = array();
-
+    /**
+     * Creates the parameter for the DQL Query
+     *
+     * @param string $name
+     * @param mixed $value
+     * @param mixed $counter
+     * @return array
+     */
     public function getParameter($name, $value, $counter = false)
     {
         // No need to bound parameter to IS NOT NULL expression
@@ -31,6 +33,13 @@ class ParameterBuilder extends OperatorHandler
         );
     }
 
+    /**
+     * Creates the token for a parameter
+     *
+     * @param string $name
+     * @param mixed $counter
+     * @return sting
+     */
     protected function createToken($name, $counter = false)
     {
         $name = $this->cleanOperators($name, self::OPERATOR_NAME);

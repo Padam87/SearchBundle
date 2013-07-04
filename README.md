@@ -4,7 +4,33 @@ Search bundle for Symfony2. Use entities, collections for search directly.
 
 ## 1. Examples ##
 
-Check the [DefaultController](https://github.com/Padam87/SearchBundle/blob/master/Controller/DefaultController.php).
+### 1.1 Simple ###
+
+	$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity');
+
+### 1.2 Joins ###
+
+	$qb =
+        $this->get('search')->createFilter($joinedfilter, 'joinalias')->applyToQueryBuilder(
+            $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity'),
+            'relationName' // this is the name of the relation in your entity, eg 'users'
+        );
+
+### 1.3 Collections ###
+
+You can also create a collection filter, which will use all the entities in the collection, to search.
+
+#### 1.3.1 OR ####
+
+Just like the simple example, but in this case, the filter is a doctrine collection.
+
+	$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity');
+
+#### 1.3.2 AND ####
+
+    $qb = $this->get('search')->createFilter(filter, 'alias')->createQueryBuilder('YourBundle:Entity', array(
+        'relationName' => 'AND'
+    ));
 
 ## 2. Installation ##
 
@@ -38,5 +64,3 @@ Don't forget to add the bundle, if all_bundles is set to false
 ## 3. Dependencies
 
 None.
-
-For working examples, you will need the [Padam87BaseBundle](https://github.com/Padam87/BaseBundle), and optionally Twitter's bootsrtap for design.

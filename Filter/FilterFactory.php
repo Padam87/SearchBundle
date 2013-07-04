@@ -7,43 +7,74 @@ use Doctrine\Common\Collections\Collection;
 
 class FilterFactory
 {
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
     protected $_em;
 
+    /**
+     * @param \Doctrine\ORM\EntityManager $em
+     */
     public function __construct(EntityManager $em = null)
     {
         $this->setEntityManager($em);
     }
 
+    /**
+     * @param \Doctrine\ORM\EntityManager $em
+     */
     public function setEntityManager(EntityManager $em = null)
     {
         $this->_em = $em;
     }
 
+    /**
+     * Creates a filter
+     *
+     * @param string $filter
+     * @param string $alias
+     * @return \Padam87\SearchBundle\Filter\FilterInterface
+     * @throws \Exception
+     */
     public function create($filter, $alias)
     {
         if ($this->isCollection($filter)) {
-            $filter = new CollectionFilter($this->_em, $filter, $alias);
+            $filter = new CollectionFilter($filter, $alias);
         } elseif ($this->isEntity($filter)) {
-            $filter = new EntityFilter($this->_em, $filter, $alias);
+            $filter = new EntityFilter($filter, $alias);
         } elseif ($this->isArray($filter)) {
-            $filter = new ArrayFilter($this->_em, $filter, $alias);
+            $filter = new ArrayFilter($filter, $alias);
         } else {
             throw new \Exception('Invalid Filter for ' . $alias); // TODO
         }
 
+        $filter->setEntityManager($this->_em);
+
         return $filter;
     }
 
+    /**
+     * @param mixed $filter
+     * @return boolean
+     */
     protected function isArray($filter)
     {
         return is_array($filter); // TODO: no matrix allowed
     }
 
+    /**
+     * @param mixed $filter
+     * @return boolean
+     */
     protected function isEntity($filter)
     {
         return is_object($filter); // TODO: do this properly, with annotation reader, until then, this will do
     }
 
+    /**
+     * @param mixed $filter
+     * @return boolean
+     */
     protected function isCollection($filter)
     {
         return $filter instanceof Collection;
