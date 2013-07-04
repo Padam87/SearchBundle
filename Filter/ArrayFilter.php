@@ -38,7 +38,12 @@ class ArrayFilter extends AbstractFilter implements FilterInterface
             $this->array[$field] = $value;
         }
 
-        return $this->array;
+        return array_filter($this->array, function ($item) {
+            if($item === false) return true; // boolean field type
+            if(empty($item)) return false;
+
+            return true;
+        });
     }
 
     /**
