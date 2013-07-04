@@ -78,9 +78,7 @@ class EntityFilter extends AbstractFilter implements FilterInterface
             return false;
         }
 
-        $expr = new Expr\Andx($expressions);
-
-        return $expr->__toString();
+        return new Expr\Andx($expressions);
     }
 
     /**

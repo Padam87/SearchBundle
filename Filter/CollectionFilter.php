@@ -66,9 +66,7 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
             return false;
         }
 
-        $expr = new Expr\Orx($sets);
-
-        return $expr->__toString();
+        return new Expr\Orx($sets);
     }
 
     /**

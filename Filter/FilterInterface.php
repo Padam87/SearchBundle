@@ -20,7 +20,7 @@ interface FilterInterface
     /**
      * Converts a filter to DQL Expressions
      *
-     * @return array
+     * @return \Doctrine\ORM\Query\Expr
      */
     function toExpr();
 
