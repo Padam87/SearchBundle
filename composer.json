@@ -15,10 +15,10 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.2.*",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "doctrine/doctrine-bundle": "1.2.*",
-        "jms/di-extra-bundle": "1.3.*"
+        "symfony/symfony": "~2.1",
+        "doctrine/orm": "*",
+        "doctrine/doctrine-bundle": "*",
+        "jms/di-extra-bundle": "*"
     },
     "target-dir": "Padam87/SearchBundle"
 }
