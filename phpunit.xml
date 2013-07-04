@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="./Tests/bootstrap.php" colors="true">
+    <php>
+        <server name="KERNEL_DIR" value="./Tests/App/app" />
+    </php>
+
+    <testsuites>
+        <testsuite name="Padam87SearchBundle">
+            <directory suffix="Test.php">./Tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
