@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Padam87/SearchBundle.png)](https://travis-ci.org/Padam87/SearchBundle)
+
 # Search Bundle #
 
 Search bundle for Symfony2. Use entities, collections for search directly.
