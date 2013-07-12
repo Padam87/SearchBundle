@@ -1,6 +1,6 @@
 <?php
 
-namespace Padam87\SearchBundle\Provider;
+namespace Padam87\SearchBundle\Service;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\ORM\EntityManager;
@@ -9,7 +9,7 @@ use Padam87\SearchBundle\Filter\FilterFactory;
 /**
  * @DI\Service("search")
  */
-class SearchServiceProvider
+class SearchService
 {
     /**
      * @var \Doctrine\ORM\EntityManager
