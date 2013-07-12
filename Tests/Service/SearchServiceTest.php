@@ -1,45 +1,35 @@
 <?php
 
-namespace Padam87\SearchBundle\Test\Functional;
+namespace Padam87\SearchBundle\Test\Service;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Padam87\SearchBundle\Filter\ArrayFilter;
 
-class ArrayFilterTest extends WebTestCase
+class SearchServiceTest extends WebTestCase
 {
-    public function testToArray()
+    public function setUp()
     {
-        $filter = new ArrayFilter(array(
-            'condition1' => 'value1',
-            'condition2' => 'value2',
-            'condition3' => null,
-        ), 'alias');
-
-        $this->assertEquals(2, count($filter->toArray()));
+        self::createClient();
     }
 
-    public function testToExpr()
+    public function testGetService()
     {
-        $filter = new ArrayFilter(array(
-            'condition1' => 'value1',
-            'condition2' => 'value2',
-            'condition3' => null,
-        ), 'alias');
+        $service = self::$kernel->getContainer()->get('search');
 
-        $expr = $filter->toExpr();
-
-        $this->assertInstanceOf('Doctrine\ORM\Query\Expr\Andx', $expr);
-        $this->assertEquals(2, count($expr->getParts()));
+        $this->assertInstanceOf('Padam87\SearchBundle\Service\SearchService', $service);
     }
 
-    public function testToParameters()
+    public function testGetFactory()
     {
-        $filter = new ArrayFilter(array(
-            'condition1' => 'value1',
-            'condition2' => 'value2',
-            'condition3' => null,
-        ), 'alias');
+        $service = self::$kernel->getContainer()->get('search');
 
-        $this->assertEquals(2, count($filter->toParameters()));
+        $this->assertInstanceOf('Padam87\SearchBundle\Filter\FilterFactory', $service->getFactory());
+    }
+
+    public function testCreateFilter()
+    {
+        $service = self::$kernel->getContainer()->get('search');
+
+        $this->assertInstanceOf('Padam87\SearchBundle\Filter\FilterInterface', $service->createFilter(array(), 'alias'));
     }
 }

@@ -1,1 +1,5 @@
-
+services:
+    search:
+        class: Padam87\SearchBundle\Service\SearchService
+        arguments:
+            - "@doctrine.orm.entity_manager"

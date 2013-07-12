@@ -18,7 +18,10 @@
         "symfony/symfony": "~2.1",
         "doctrine/orm": "*",
         "doctrine/doctrine-bundle": "*",
-        "jms/di-extra-bundle": "*"
+        "jms/security-extra-bundle": "*",
+        "jms/di-extra-bundle": "*",
+        "sensio/distribution-bundle": "*",
+        "sensio/framework-extra-bundle": "*"
     },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master"
