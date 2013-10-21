@@ -56,14 +56,3 @@ Don't forget to add the bundle, if all_bundles is set to false
 	    locations:
 	        all_bundles: false
 	        bundles: [Padam87SearchBundle]
-
-### 2.4. Routing (optional, for working examples) ###
-
-	Padam87SearchBundle:
-	    resource: "@Padam87SearchBundle/Controller/"
-	    type:     annotation
-	    prefix:   /
-
-## 3. Dependencies
-
-None.
