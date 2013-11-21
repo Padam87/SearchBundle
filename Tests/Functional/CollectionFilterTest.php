@@ -53,7 +53,7 @@ class CollectionFilterTest extends WebTestCase
         $this->assertEquals(2, count($expr->getParts()));
     }
 
-    public function testTov()
+    public function testToParameters()
     {
         $company1 = new Company();
         $company1->setName('Netlife');
