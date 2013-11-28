@@ -39,7 +39,7 @@ Just like the simple example, but in this case, the filter is a doctrine collect
 
 ### 2.1. Composer ###
 
-    "padam87/search-bundle": "dev-master",
+    "padam87/search-bundle": "1.0.*",
 
 ### 2.2. AppKernel ###
 
