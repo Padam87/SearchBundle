@@ -2,13 +2,9 @@
 
 namespace Padam87\SearchBundle\Service;
 
-use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\ORM\EntityManager;
 use Padam87\SearchBundle\Filter\FilterFactory;
 
-/**
- * @DI\Service("search")
- */
 class SearchService
 {
     /**
@@ -22,9 +18,7 @@ class SearchService
     private $factory;
 
     /**
-     * @DI\InjectParams({
-     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
-     * })
+     * @param \Doctrine\ORM\EntityManager $em
      */
     public function __construct(EntityManager $em)
     {

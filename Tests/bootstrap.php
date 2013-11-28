@@ -13,7 +13,3 @@ require_once __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Column.
 require_once __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/GeneratedValue.php';
 require_once __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/OneToMany.php';
 require_once __DIR__ . '/../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/ManyToOne.php';
-
-require_once __DIR__ . '/../vendor/jms/di-extra-bundle/JMS/DiExtraBundle/Annotation/Service.php';
-require_once __DIR__ . '/../vendor/jms/di-extra-bundle/JMS/DiExtraBundle/Annotation/Inject.php';
-require_once __DIR__ . '/../vendor/jms/di-extra-bundle/JMS/DiExtraBundle/Annotation/InjectParams.php';
