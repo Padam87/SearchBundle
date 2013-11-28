@@ -9,15 +9,19 @@ Search bundle for Symfony2. Use entities, collections for search directly.
 
 ### 1.1 Simple ###
 
-	$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity');
+```php
+$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity');
+```
 
 ### 1.2 Joins ###
 
-	$qb =
-        $this->get('search')->createFilter($joinedfilter, 'joinalias')->applyToQueryBuilder(
-            $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity'),
-            'relationName' // this is the name of the relation in your entity, eg 'users'
-        );
+```php
+$qb =
+$this->get('search')->createFilter($joinedfilter, 'joinalias')->applyToQueryBuilder(
+    $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity'),
+    'relationName' // this is the name of the relation in your entity, eg 'users'
+);
+```
 
 ### 1.3 Collections ###
 
@@ -27,13 +31,17 @@ You can also create a collection filter, which will use all the entities in the 
 
 Just like the simple example, but in this case, the filter is a doctrine collection.
 
-	$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity');
+```php
+$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity');
+```
 
 #### 1.3.2 AND ####
 
-    $qb = $this->get('search')->createFilter(filter, 'alias')->createQueryBuilder('YourBundle:Entity', array(
-        'relationName' => 'AND'
-    ));
+```php
+$qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('YourBundle:Entity', array(
+    'relationName' => 'AND'
+));
+```
 
 ## 2. Installation ##
 
