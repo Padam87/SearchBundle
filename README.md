@@ -47,12 +47,3 @@ Just like the simple example, but in this case, the filter is a doctrine collect
 		...
         new Padam87\SearchBundle\Padam87SearchBundle(),
     );
-
-### 2.3. Check config.yml ###
-
-Don't forget to add the bundle, if all_bundles is set to false
-
-	jms_di_extra:
-	    locations:
-	        all_bundles: false
-	        bundles: [Padam87SearchBundle]
