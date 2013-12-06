@@ -32,6 +32,13 @@ class Company
     private $email;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $numberOfEmployees;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
@@ -110,6 +117,29 @@ class Company
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set numberOfEmployees
+     *
+     * @param string $numberOfEmployees
+     * @return Company
+     */
+    public function setNumberOfEmployees($numberOfEmployees)
+    {
+        $this->numberOfEmployees = $numberOfEmployees;
+
+        return $this;
+    }
+
+    /**
+     * Get numberOfEmployees
+     *
+     * @return string
+     */
+    public function getNumberOfEmployees()
+    {
+        return $this->numberOfEmployees;
     }
 
     /**
