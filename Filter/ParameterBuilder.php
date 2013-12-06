@@ -21,8 +21,8 @@ class ParameterBuilder extends OperatorHandler
      */
     public function getParameter($name, $value, $counter = false)
     {
-        // No need to bound parameter to IS NOT NULL expression
-        if ('NULL' == $this->getOperator($value, self::OPERATOR_VALUE) && '!=' == $this->getOperator($name, self::OPERATOR_NAME)) {
+        // No need to bound parameter to IS NULL or IS NOT NULL expression
+        if ('NULL' == $this->getOperator($value, self::OPERATOR_VALUE)) {
             return NULL;
         }
 

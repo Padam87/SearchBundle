@@ -30,10 +30,10 @@ class ExprBuilder extends OperatorHandler
                     $expression = $Expr->lower($name) . " LIKE " . $this->createToken($name, $counter);
                     break;
                 case 'NULL':
-                    if ('!=' == $this->getOperator($name, self::OPERATOR_VALUE)) {
-                        $expression = $this->cleanOperators($name, self::OPERATOR_VALUE) . " IS NOT NULL";
+                    if ('!=' == $this->getOperator($name, self::OPERATOR_NAME)) {
+                        $expression = $Expr->isNotNull($this->cleanOperators($name, self::OPERATOR_NAME));
                     } else {
-                        $expression = $Expr->eq($name, $this->createToken($name, $counter));
+                        $expression = $Expr->isNull($name, $this->createToken($name, $counter));
                     }
                     break;
             }
