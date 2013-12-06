@@ -68,7 +68,10 @@ class EntityFilterTest extends WebTestCase
 
         $qb = $filter->createQueryBuilder('Padam87SearchBundleTest:Company');
 
-        $this->assertEquals(1, count($qb->getDQLPart('join')));
+        $joins = $qb->getDQLPart('join');
+
+        $this->assertEquals(1, count($joins));
+        $this->assertEquals(1, count($joins['c']));
     }
 
     public function testCollectionHandling()
