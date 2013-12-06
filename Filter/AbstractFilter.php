@@ -74,12 +74,13 @@ abstract class AbstractFilter
         $operatorHandler = new OperatorHandler();
 
         if (isset($this->defaultOperators[$field])) {
-            if (isset(OperatorHandler::$nameOperators[$this->defaultOperators[$field]]) &&
-                    $operatorHandler->getOperator($field, OperatorHandler::OPERATOR_NAME) === false) {
+            if (isset(OperatorHandler::$nameOperators[$this->defaultOperators[$field]])
+                && $operatorHandler->getOperator($field, OperatorHandler::OPERATOR_NAME) === false) {
+
                 $field = $field . $this->defaultOperators[$field];
-            }
-            if (isset(OperatorHandler::$valueOperators[$this->defaultOperators[$field]]) &&
-                    $operatorHandler->getOperator($field, OperatorHandler::OPERATOR_VALUE) === false) {
+            } elseif (isset(OperatorHandler::$valueOperators[$this->defaultOperators[$field]])
+                && $operatorHandler->getOperator($field, OperatorHandler::OPERATOR_VALUE) === false) {
+
                 $value = $value . $this->defaultOperators[$field];
             }
         }
