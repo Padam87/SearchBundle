@@ -40,7 +40,7 @@ class EntityFilter extends AbstractFilter implements FilterInterface
         $filter = array();
 
         foreach ($fields as $field) {
-            if($field == 'id') {
+            if ($field == 'id') {
                 continue;
             }
 
@@ -56,10 +56,10 @@ class EntityFilter extends AbstractFilter implements FilterInterface
         }
 
         return array_filter($filter, function ($item) {
-            if($item === false) {
+            if ($item === false) {
                 return true;
             }
-            if(empty($item)) {
+            if (empty($item)) {
                 return false;
             }
 
@@ -99,7 +99,7 @@ class EntityFilter extends AbstractFilter implements FilterInterface
         foreach ($this->toArray() as $name => $value) {
             $parameter = $ParameterBuilder->getParameter($this->alias . '.' . $name, $value);
 
-            if($parameter != null) {
+            if ($parameter != null) {
                 $parameters[] = $parameter;
             }
         }

@@ -65,12 +65,12 @@ class OperatorHandler
     {
         $operators = $this->getOperators($operatorSet);
 
-        if(is_string($value) && strstr($value, "*") !== false) {
+        if (is_string($value) && strstr($value, "*") !== false) {
             $value = strtolower($value);
         }
 
         foreach ($operators as $operator => $replace) {
-            if(is_string($value)) {
+            if (is_string($value)) {
                 $value = str_replace($operator, $replace, $value);
             }
         }

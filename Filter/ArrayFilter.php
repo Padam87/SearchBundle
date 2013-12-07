@@ -39,10 +39,10 @@ class ArrayFilter extends AbstractFilter implements FilterInterface
         }
 
         return array_filter($this->array, function ($item) {
-            if($item === false) {
+            if ($item === false) {
                 return true;
             }
-            if(empty($item)) {
+            if (empty($item)) {
                 return false;
             }
 
@@ -80,13 +80,13 @@ class ArrayFilter extends AbstractFilter implements FilterInterface
         $parameters = array();
 
         foreach ($this->toArray() as $name => $value) {
-            if($name == 'TYPE') {
+            if ($name == 'TYPE') {
                 continue;
             }
 
             $parameter = $ParameterBuilder->getParameter($this->alias . '.' . $name, $value);
 
-            if($parameter != null) {
+            if ($parameter != null) {
                 $parameters[] = $parameter;
             }
         }

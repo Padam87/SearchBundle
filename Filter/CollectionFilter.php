@@ -39,7 +39,7 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
         }
 
         return array_filter($filter, function ($item) {
-            if(empty($item)) {
+            if (empty($item)) {
                 return false;
             }
 
@@ -84,7 +84,7 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
             foreach ($set as $name => $value) {
                 $parameter = $ParameterBuilder->getParameter($this->alias . '.' . $name, $value, $k);
 
-                if($parameter != null) {
+                if ($parameter != null) {
                     $parameters[] = $parameter;
                 }
             }
