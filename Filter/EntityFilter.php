@@ -28,11 +28,11 @@ class EntityFilter extends AbstractFilter implements FilterInterface
      */
     public function toArray()
     {
-        $fields = $this->_em->getClassMetadata(get_class($this->entity))->getFieldNames();
-        $associations = $this->_em->getClassMetadata(get_class($this->entity))->getAssociationNames();
+        $fields = $this->em->getClassMetadata(get_class($this->entity))->getFieldNames();
+        $associations = $this->em->getClassMetadata(get_class($this->entity))->getAssociationNames();
 
         foreach ($associations as $name) {
-            if (!$this->_em->getClassMetadata(get_class($this->entity))->isCollectionValuedAssociation($name)) {
+            if (!$this->em->getClassMetadata(get_class($this->entity))->isCollectionValuedAssociation($name)) {
                 $fields[] = $name;
             }
         }
@@ -40,7 +40,9 @@ class EntityFilter extends AbstractFilter implements FilterInterface
         $filter = array();
 
         foreach ($fields as $field) {
-            if($field == 'id') continue;
+            if($field == 'id') {
+                continue;
+            }
 
             $value = $this->get($field);
 
@@ -54,8 +56,12 @@ class EntityFilter extends AbstractFilter implements FilterInterface
         }
 
         return array_filter($filter, function ($item) {
-            if($item === false) return true; // boolean field type
-            if(empty($item)) return false;
+            if($item === false) {
+                return true;
+            }
+            if(empty($item)) {
+                return false;
+            }
 
             return true;
         });
@@ -86,14 +92,16 @@ class EntityFilter extends AbstractFilter implements FilterInterface
      */
     public function toParameters()
     {
-        $ParamterBuilder = new ParameterBuilder();
+        $ParameterBuilder = new ParameterBuilder();
 
         $parameters = array();
 
         foreach ($this->toArray() as $name => $value) {
-            $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+            $parameter = $ParameterBuilder->getParameter($this->alias . '.' . $name, $value);
 
-            if($parameter != NULL) $parameters[] = $parameter;
+            if($parameter != null) {
+                $parameters[] = $parameter;
+            }
         }
 
         return $parameters;

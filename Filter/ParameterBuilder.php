@@ -23,7 +23,7 @@ class ParameterBuilder extends OperatorHandler
     {
         // No need to bound parameter to IS NULL or IS NOT NULL expression
         if ('NULL' == $this->getOperator($value, self::OPERATOR_VALUE)) {
-            return NULL;
+            return null;
         }
 
         return array(
@@ -38,8 +38,9 @@ class ParameterBuilder extends OperatorHandler
      * Creates the token for a parameter
      *
      * @param string $name
-     * @param mixed $counter
-     * @return sting
+     * @param mixed  $counter
+     *
+     * @return string
      */
     protected function createToken($name, $counter = false)
     {

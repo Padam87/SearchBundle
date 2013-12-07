@@ -36,7 +36,8 @@ class OperatorHandler
      * Checks the given string for operators
      *
      * @param string $value
-     * @param array $operatorSet
+     * @param int    $operatorSet
+     *
      * @return mixed
      */
     public function getOperator($value, $operatorSet = self::OPERATOR_ALL)
@@ -56,17 +57,22 @@ class OperatorHandler
      * Cleans the given string of operators
      *
      * @param string $value
-     * @param array $operatorSet
+     * @param int    $operatorSet
+     *
      * @return mixed
      */
     public function cleanOperators($value, $operatorSet = self::OPERATOR_ALL)
     {
         $operators = $this->getOperators($operatorSet);
 
-        if(is_string($value) && strstr($value, "*") !== false) $value = strtolower($value);
+        if(is_string($value) && strstr($value, "*") !== false) {
+            $value = strtolower($value);
+        }
 
         foreach ($operators as $operator => $replace) {
-            if(is_string($value)) $value = str_replace($operator, $replace, $value);
+            if(is_string($value)) {
+                $value = str_replace($operator, $replace, $value);
+            }
         }
 
         return $value;
@@ -75,7 +81,8 @@ class OperatorHandler
     /**
      * Finds a set of operators
      *
-     * @param array $operatorSet
+     * @param int $operatorSet
+     *
      * @return array
      */
     private function getOperators($operatorSet = self::OPERATOR_ALL)

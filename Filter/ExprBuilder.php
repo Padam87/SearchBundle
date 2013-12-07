@@ -18,6 +18,7 @@ class ExprBuilder extends OperatorHandler
      * @param string $name
      * @param mixed $value
      * @param mixed $counter
+     *
      * @return \Doctrine\ORM\Query\Expr
      */
     public function getExpression($name, $value, $counter = false)
@@ -76,7 +77,8 @@ class ExprBuilder extends OperatorHandler
      *
      * @param string $name
      * @param mixed $counter
-     * @return sting
+     *
+     * @return string
      */
     protected function createToken($name, $counter = false)
     {

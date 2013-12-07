@@ -8,9 +8,9 @@ use Doctrine\ORM\QueryBuilder;
 abstract class AbstractFilter
 {
     /**
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
-    protected $_em;
+    protected $em;
 
     /**
      * Alias for the query entity
@@ -34,7 +34,7 @@ abstract class AbstractFilter
     protected $collectionHandling = array();
 
     /**
-     * Specifies the search method for a field, defults to "=" if not specified
+     * Specifies the search method for a field, defaults to "=" if not specified
      *
      * @var array
      */
@@ -45,7 +45,7 @@ abstract class AbstractFilter
      */
     public function setEntityManager(EntityManager $em = null)
     {
-        $this->_em = $em;
+        $this->em = $em;
     }
 
     /**
@@ -67,7 +67,8 @@ abstract class AbstractFilter
      *
      * @param string $field
      * @param string $value
-     * @return type
+     *
+     * @return array
      */
     protected function processDefaultOperator($field, $value)
     {
@@ -100,7 +101,7 @@ abstract class AbstractFilter
         $this->entityName = $entityName;
         $this->collectionHandling = $collectionHandling;
 
-        $queryBuilder = $this->_em->getRepository($this->entityName)->createQueryBuilder($this->alias);
+        $queryBuilder = $this->em->getRepository($this->entityName)->createQueryBuilder($this->alias);
 
         return $this->applyToQueryBuilder($queryBuilder);
     }
@@ -127,19 +128,21 @@ abstract class AbstractFilter
             }
 
             if ($this->entityName != null) {
-                $associations = $this->_em->getClassMetadata($this->entityName)->getAssociationNames();
+                $associations = $this->em->getClassMetadata($this->entityName)->getAssociationNames();
 
                 foreach ($associations as $name) {
-                    if ($this->_em->getClassMetadata($this->entityName)->isCollectionValuedAssociation($name)) {
-                        $factory = new FilterFactory($this->_em);
+                    if ($this->em->getClassMetadata($this->entityName)->isCollectionValuedAssociation($name)) {
+                        $factory = new FilterFactory($this->em);
 
                         if ($this->get($name) != null && $this->get($name)->count() > 0) {
                             if (isset($this->collectionHandling[$name]) && $this->collectionHandling[$name] == 'AND') {
                                 foreach ($this->get($name) as $k => $filter) {
-                                    $queryBuilder = $factory->create($filter, $name . $k)->applyToQueryBuilder($queryBuilder, $name);
+                                    $queryBuilder = $factory->create($filter, $name . $k)
+                                        ->applyToQueryBuilder($queryBuilder, $name);
                                 }
                             } else {
-                                $queryBuilder = $factory->create($this->get($name), $name)->applyToQueryBuilder($queryBuilder, $name);
+                                $queryBuilder = $factory->create($this->get($name), $name)
+                                    ->applyToQueryBuilder($queryBuilder, $name);
                             }
                         }
                     }

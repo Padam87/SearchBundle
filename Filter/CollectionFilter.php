@@ -12,7 +12,7 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
     /**
      * The filter collection
      *
-     * @var Doctrine\Common\Collections\Collection
+     * @var \Doctrine\Common\Collections\Collection
      */
     protected $collection;
 
@@ -32,14 +32,16 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
     {
         $filter = array();
 
-        $FilterFactory = new FilterFactory($this->_em);
+        $FilterFactory = new FilterFactory($this->em);
 
         foreach ($this->collection->toArray() as $k => $entity) {
             $filter[$k] = $FilterFactory->create($entity, $this->alias)->toArray();
         }
 
         return array_filter($filter, function ($item) {
-            if(empty($item)) return false;
+            if(empty($item)) {
+                return false;
+            }
 
             return true;
         });
@@ -74,15 +76,17 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
      */
     public function toParameters()
     {
-        $ParamterBuilder = new ParameterBuilder();
+        $ParameterBuilder = new ParameterBuilder();
 
         $parameters = array();
 
         foreach ($this->toArray() as $k => $set) {
             foreach ($set as $name => $value) {
-                $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value, $k);
+                $parameter = $ParameterBuilder->getParameter($this->alias . '.' . $name, $value, $k);
 
-                if($parameter != NULL) $parameters[] = $parameter;
+                if($parameter != null) {
+                    $parameters[] = $parameter;
+                }
             }
         }
 
@@ -94,7 +98,7 @@ class CollectionFilter extends AbstractFilter implements FilterInterface
      */
     public function get($field)
     {
-        return NULL;
+        return null;
     }
 
     /**

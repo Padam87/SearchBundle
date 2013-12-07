@@ -8,38 +8,40 @@ interface FilterInterface
      * @param mixed $filter
      * @param string $alias
      */
-    function __construct($filter, $alias);
+    public function __construct($filter, $alias);
 
     /**
      * Converts a filter to array
      *
      * @return array
      */
-    function toArray();
+    public function toArray();
 
     /**
      * Converts a filter to DQL Expressions
      *
      * @return \Doctrine\ORM\Query\Expr
      */
-    function toExpr();
+    public function toExpr();
 
     /**
      * Converts a filter to DQL Query Parameters
      *
      * @return array
      */
-    function toParameters();
+    public function toParameters();
 
     /**
      * Gets the filter value for a specific field
      *
+     * @param $field
+     *
      * @return mixed
      */
-    function get($field);
+    public function get($field);
 
     /**
      * @return boolean
      */
-    function isMultipleLevel();
+    public function isMultipleLevel();
 }

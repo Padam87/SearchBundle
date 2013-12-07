@@ -39,8 +39,12 @@ class ArrayFilter extends AbstractFilter implements FilterInterface
         }
 
         return array_filter($this->array, function ($item) {
-            if($item === false) return true; // boolean field type
-            if(empty($item)) return false;
+            if($item === false) {
+                return true;
+            }
+            if(empty($item)) {
+                return false;
+            }
 
             return true;
         });
@@ -71,16 +75,20 @@ class ArrayFilter extends AbstractFilter implements FilterInterface
      */
     public function toParameters()
     {
-        $ParamterBuilder = new ParameterBuilder();
+        $ParameterBuilder = new ParameterBuilder();
 
         $parameters = array();
 
         foreach ($this->toArray() as $name => $value) {
-            if($name == 'TYPE') continue;
+            if($name == 'TYPE') {
+                continue;
+            }
 
-            $parameter = $ParamterBuilder->getParameter($this->alias . '.' . $name, $value);
+            $parameter = $ParameterBuilder->getParameter($this->alias . '.' . $name, $value);
 
-            if($parameter != NULL) $parameters[] = $parameter;
+            if($parameter != null) {
+                $parameters[] = $parameter;
+            }
         }
 
         return $parameters;
@@ -91,7 +99,7 @@ class ArrayFilter extends AbstractFilter implements FilterInterface
      */
     public function get($field)
     {
-        return isset($this->array[$field]) ? $this->array[$field] : NULL;
+        return isset($this->array[$field]) ? $this->array[$field] : null;
     }
 
     /**

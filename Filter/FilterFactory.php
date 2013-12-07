@@ -10,7 +10,7 @@ class FilterFactory
     /**
      * @var \Doctrine\ORM\EntityManager
      */
-    protected $_em;
+    protected $em;
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
@@ -25,7 +25,7 @@ class FilterFactory
      */
     public function setEntityManager(EntityManager $em = null)
     {
-        $this->_em = $em;
+        $this->em = $em;
     }
 
     /**
@@ -48,7 +48,7 @@ class FilterFactory
             throw new \Exception('Invalid Filter for ' . $alias); // TODO
         }
 
-        $filter->setEntityManager($this->_em);
+        $filter->setEntityManager($this->em);
 
         return $filter;
     }
