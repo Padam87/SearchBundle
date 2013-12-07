@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/Padam87/SearchBundle.png)](https://travis-ci.org/Padam87/SearchBundle)
-[![Coverage Status](https://coveralls.io/repos/Padam87/SearchBundle/badge.png)](https://coveralls.io/r/Padam87/SearchBundle)
+[![Coverage Status](https://coveralls.io/repos/Padam87/SearchBundle/badge.png)](https://coveralls.io/r/Padam87/SearchBu
+ndle)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Padam87/SearchBundle/badges/quality-score.png?s=9b1c88ceb9bd4fe2d50d2a283f21b7a2f33b6299)](https://scrutinizer-ci.com/g/Padam87/SearchBundle/)
 
 # Search Bundle #
 
