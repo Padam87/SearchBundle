@@ -2,7 +2,6 @@
 namespace Padam87\SearchBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Padam87\SearchBundle\Filter\FilterInterface;
 use Padam87\SearchBundle\Service\SearchService;
 
 class SearchableRepository extends EntityRepository
@@ -18,14 +17,14 @@ class SearchableRepository extends EntityRepository
     }
 
     /**
-     * @param \Padam87\SearchBundle\Filter\FilterInterface $filter
-     * @param string                                       $alias
-     * @param string                                       $order
-     * @param string                                       $direction
+     * @param mixed  $filter
+     * @param string $alias
+     * @param string $order
+     * @param string $direction
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function createSearchQueryBuilder(FilterInterface $filter, $alias, $order = null, $direction = 'ASC')
+    public function createSearchQueryBuilder($filter, $alias, $order = null, $direction = 'ASC')
     {
         $qb = $this->searchService->createFilter($filter, $alias)->createQueryBuilder($this->getEntityName());
 
