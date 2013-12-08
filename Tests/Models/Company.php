@@ -5,7 +5,7 @@ namespace Padam87\SearchBundle\Tests\Models;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Padam87\SearchBundle\Tests\Models\Repository\CompanyRepository")
  * @ORM\Table(name="company")
  */
 class Company

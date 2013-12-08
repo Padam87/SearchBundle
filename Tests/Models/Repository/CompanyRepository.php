@@ -2,7 +2,9 @@
 
 namespace Padam87\SearchBundle\Tests\Models\Repository;
 
-class CompanyRepository
+use Padam87\SearchBundle\Entity\Repository\SearchableRepository;
+
+class CompanyRepository extends SearchableRepository
 {
 
 } 
