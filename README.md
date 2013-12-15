@@ -56,3 +56,7 @@ $qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('
 		...
         new Padam87\SearchBundle\Padam87SearchBundle(),
     );
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Padam87/searchbundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
