@@ -1,6 +1,6 @@
 <?php
 
-namespace Padam87\SearchBundle\Filter;
+namespace Padam87\SearchBundle\Filter\Converter\Util;
 
 class ParameterBuilder extends OperatorHandler
 {

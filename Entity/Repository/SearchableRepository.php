@@ -3,7 +3,8 @@ namespace Padam87\SearchBundle\Entity\Repository;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\ORM\EntityRepository;
-use Padam87\SearchBundle\Service\SearchService;
+use Padam87\SearchBundle\Filter\FilterInterface;
+use Padam87\SearchBundle\Filter\FilterManager;
 
 /**
  * A repository with the searchService injected to it.
@@ -11,41 +12,44 @@ use Padam87\SearchBundle\Service\SearchService;
  */
 class SearchableRepository extends EntityRepository
 {
-    protected $searchService;
+    /**
+     * @var FilterManager
+     */
+    protected $filterManager;
 
     /**
      * @DI\InjectParams({
-     *     "service" = @DI\Inject("search")
+     *     "service" = @DI\Inject("padam87_search.filter.manager")
      * })
      *
-     * @param SearchService $service
+     * @param FilterManager $service
      */
-    public function setSearchService(SearchService $service)
+    public function setFilterManager(FilterManager $service)
     {
-        $this->searchService = $service;
+        $this->filterManager = $service;
     }
 
     /**
-     * @param mixed  $filter
-     * @param string $alias
-     * @param string $order
-     * @param string $direction
+     * @param FilterInterface $filter
+     * @param string          $order
+     * @param string          $direction
      *
      * @throws \InvalidArgumentException
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function createSearchQueryBuilder($filter, $alias, $order = null, $direction = 'ASC')
+    public function createSearchQueryBuilder(FilterInterface $filter, $order = null, $direction = 'ASC')
     {
-        if (!($this->searchService instanceof SearchService)) {
+        if (!($this->filterManager instanceof FilterManager)) {
             throw new \InvalidArgumentException(sprintf(
-                '$this->searchService should be an instance of %s, %s given. '.
+                '$this->filterManager should be an instance of %s, %s given. '.
                     '(Perhaps you forgot to add the JSMDiExtraBundle?)',
-                'Padam87\SearchBundle\Service\SearchService',
-                is_object($this->searchService) ? get_class($this->searchService) : $this->searchService
+                'Padam87\SearchBundle\Filter\FilterManager',
+                is_object($this->filterManager) ? get_class($this->filterManager) : $this->filterManager
             ));
         }
 
-        $qb = $this->searchService->createFilter($filter, $alias)->createQueryBuilder($this->getEntityName());
+        $filter->setEntityName($this->getEntityName());
+        $qb = $this->filterManager->createQueryBuilder($filter);
 
         if ($order != null) {
             $qb->orderBy($order, $direction);

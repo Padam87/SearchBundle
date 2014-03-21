@@ -5,43 +5,42 @@ namespace Padam87\SearchBundle\Filter;
 interface FilterInterface
 {
     /**
-     * @param mixed $filter
-     * @param string $alias
-     */
-    public function __construct($filter, $alias);
-
-    /**
-     * Converts a filter to array
-     *
-     * @return array
-     */
-    public function toArray();
-
-    /**
-     * Converts a filter to DQL Expressions
-     *
-     * @return \Doctrine\ORM\Query\Expr
-     */
-    public function toExpr();
-
-    /**
-     * Converts a filter to DQL Query Parameters
-     *
-     * @return array
-     */
-    public function toParameters();
-
-    /**
-     * Gets the filter value for a specific field
-     *
-     * @param $field
-     *
      * @return mixed
      */
-    public function get($field);
+    public function getData();
 
     /**
-     * @return boolean
+     * @param mixed $data
      */
-    public function isMultipleLevel();
-}
+    public function setData($data);
+
+    /**
+     * @return string
+     */
+    public function getEntityName();
+
+    /**
+     * @param string $entityName
+     */
+    public function setEntityName($entityName);
+
+    /**
+     * @return string
+     */
+    public function getAlias();
+
+    /**
+     * @param string $alias
+     */
+    public function setAlias($alias);
+
+    /**
+     * @return array
+     */
+    public function getDefaultOperators();
+
+    /**
+     * @param array $defaultOperators
+     */
+    public function setDefaultOperators($defaultOperators);
+} 
