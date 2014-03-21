@@ -37,7 +37,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="padam87_search.converter" />
         </service>
-        <service id="padam87_search.converter.collection" class="%padam87_search.converter.collection.class%" synchronized="true">
+        <service id="padam87_search.converter.collection" class="%padam87_search.converter.collection.class%">
             <argument type="service" id="padam87_search.converter.util.parameter_builder" />
             <argument type="service" id="padam87_search.converter.util.expr_builder" />
             <argument type="service" id="padam87_search.converter.util.operator_handler" />
