@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/Padam87/SearchBundle.png)](https://travis-ci.org/Padam87/SearchBundle)
 [![Coverage Status](https://coveralls.io/repos/Padam87/SearchBundle/badge.png)](https://coveralls.io/r/Padam87/SearchBundle)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Padam87/SearchBundle/badges/quality-score.png?s=9b1c88ceb9bd4fe2d50d2a283f21b7a2f33b6299)](https://scrutinizer-ci.com/g/Padam87/SearchBundle/)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/cd38769c-b30b-4d6a-88ce-e1906b35eee2/mini.png)](https://insight.sensiolabs.com/projects/cd38769c-b30b-4d6a-88ce-e1906b35eee2)
 
 # Search Bundle #
 
@@ -56,7 +57,3 @@ $qb = $this->get('search')->createFilter($filter, 'alias')->createQueryBuilder('
 		...
         new Padam87\SearchBundle\Padam87SearchBundle(),
     );
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Padam87/searchbundle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
