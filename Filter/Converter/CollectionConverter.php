@@ -4,9 +4,6 @@ namespace Padam87\SearchBundle\Filter\Converter;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Query\Expr;
-use Padam87\SearchBundle\Filter\Converter\Util\ExprBuilder;
-use Padam87\SearchBundle\Filter\Converter\Util\OperatorHandler;
-use Padam87\SearchBundle\Filter\Converter\Util\ParameterBuilder;
 use Padam87\SearchBundle\Filter\Filter;
 use Padam87\SearchBundle\Filter\FilterInterface;
 
