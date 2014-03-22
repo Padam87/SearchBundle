@@ -59,4 +59,25 @@ abstract class AbstractConverter implements ConverterInterface
 
         return compact('field', 'value');
     }
+
+    /**
+     * Removes empty array values
+     *
+     * @param array $array
+     *
+     * @return array
+     */
+    protected function filterArray($array)
+    {
+        return array_filter($array, function ($item) {
+            if ($item === false) {
+                return true;
+            }
+            if (empty($item)) {
+                return false;
+            }
+
+            return true;
+        });
+    }
 }

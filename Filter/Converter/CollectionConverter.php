@@ -32,13 +32,7 @@ class CollectionConverter extends AbstractConverter implements ConverterInterfac
             $return[$k] = $this->converterManager->getConverter($subfilter)->toArray($subfilter);
         }
 
-        return array_filter($return, function ($item) {
-            if (empty($item)) {
-                return false;
-            }
-
-            return true;
-        });
+        return $this->filterArray($return);
     }
 
     /**

@@ -22,16 +22,7 @@ class ArrayConverter extends AbstractConverter implements ConverterInterface
             $data[$field] = $value;
         }
 
-        return array_filter($data, function ($item) {
-            if ($item === false) {
-                return true;
-            }
-            if (empty($item)) {
-                return false;
-            }
-
-            return true;
-        });
+        return $this->filterArray($data);
     }
 
     /**

@@ -57,16 +57,7 @@ class EntityConverter extends AbstractConverter implements ConverterInterface
             }
         }
 
-        return array_filter($return, function ($item) {
-            if ($item === false) {
-                return true;
-            }
-            if (empty($item)) {
-                return false;
-            }
-
-            return true;
-        });
+        return $this->filterArray($return);
     }
 
     /**
