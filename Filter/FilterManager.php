@@ -34,6 +34,7 @@ class FilterManager
      * @param FilterInterface $filter
      * @param array           $collectionHandling
      *
+     * @throws \InvalidArgumentException
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function createQueryBuilder(FilterInterface $filter, $collectionHandling = array())
@@ -55,27 +56,36 @@ class FilterManager
             }
         }
 
-        if ($filter->getEntityName() != null) {
-            $associations = $this->em->getClassMetadata($filter->getEntityName())->getAssociationNames();
+        $cmf = $this->em->getMetadataFactory();
 
-            foreach ($associations as $name) {
-                if (!$this->em->getClassMetadata($filter->getEntityName())->isCollectionValuedAssociation($name)) {
-                    continue;
-                }
+        if ($filter->getEntityName() == null || $cmf->isTransient($filter->getEntityName())) {
+            throw new \InvalidArgumentException(sprintf(
+                "%s must be a valid entity name, %s given",
+                "Filter#entityName",
+                $filter->getEntityName()
+            ));
+        }
 
-                if ($converter->get($filter, $name) == null || $converter->get($filter, $name)->count() == 0) {
-                    continue;
-                }
+        $metadata = $cmf->getMetadataFor($filter->getEntityName());
+        $associations = $metadata->getAssociationNames();
 
-                if (isset($collectionHandling[$name]) && $collectionHandling[$name] == 'AND') {
-                    foreach ($converter->get($filter, $name) as $k => $data) {
-                        $subfilter = new Filter($data, null, $name . $k);
-                        $this->joinToQueryBuilder($subfilter, $queryBuilder, $name);
-                    }
-                } else {
-                    $subfilter = new Filter($converter->get($filter, $name), null, $name);
+        foreach ($associations as $name) {
+            if (!$metadata->isCollectionValuedAssociation($name)) {
+                continue;
+            }
+
+            if ($converter->get($filter, $name) == null || $converter->get($filter, $name)->count() == 0) {
+                continue;
+            }
+
+            if (isset($collectionHandling[$name]) && $collectionHandling[$name] == 'AND') {
+                foreach ($converter->get($filter, $name) as $k => $data) {
+                    $subfilter = new Filter($data, null, $name . $k);
                     $this->joinToQueryBuilder($subfilter, $queryBuilder, $name);
                 }
+            } else {
+                $subfilter = new Filter($converter->get($filter, $name), null, $name);
+                $this->joinToQueryBuilder($subfilter, $queryBuilder, $name);
             }
         }
 
