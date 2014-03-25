@@ -1,3 +1,6 @@
+##v2.0.0
+  - Rewrite, no backwards compatibility
+
 ##v1.0.2:
   - Refactored SearchableRepository
 
