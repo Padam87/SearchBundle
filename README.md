@@ -2,6 +2,10 @@
 [![Coverage Status](https://coveralls.io/repos/Padam87/SearchBundle/badge.png)](https://coveralls.io/r/Padam87/SearchBundle)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Padam87/SearchBundle/badges/quality-score.png?s=9b1c88ceb9bd4fe2d50d2a283f21b7a2f33b6299)](https://scrutinizer-ci.com/g/Padam87/SearchBundle/)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/cd38769c-b30b-4d6a-88ce-e1906b35eee2/mini.png)](https://insight.sensiolabs.com/projects/cd38769c-b30b-4d6a-88ce-e1906b35eee2)
+[![Latest Stable Version](https://poser.pugx.org/padam87/search-bundle/v/stable.png)](https://packagist.org/packages/padam87/search-bundle)
+[![Total Downloads](https://poser.pugx.org/padam87/search-bundle/downloads.png)](https://packagist.org/packages/padam87/search-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/padam87/search-bundle/v/unstable.png)](https://packagist.org/packages/padam87/search-bundle)
+[![License](https://poser.pugx.org/padam87/search-bundle/license.png)](https://packagist.org/packages/padam87/search-bundle)
 
 # Search Bundle #
 
