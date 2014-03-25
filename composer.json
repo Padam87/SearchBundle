@@ -21,6 +21,7 @@
         "doctrine/doctrine-bundle": "*"
     },
     "require-dev": {
+        "phpunit/phpunit": "~3.7",
         "satooshi/php-coveralls": "dev-master"
     },
     "target-dir": "Padam87/SearchBundle"
