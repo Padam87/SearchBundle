@@ -6,13 +6,6 @@ use Doctrine\ORM\Query\Expr;
 class ExprBuilder extends OperatorHandler
 {
     /**
-     * List of created tokens
-     *
-     * @var array
-     */
-    private $tokens = array();
-
-    /**
      * Creates the DQL expression for a filter parameter
      *
      * @param string $name
@@ -85,12 +78,6 @@ class ExprBuilder extends OperatorHandler
         $name = $this->cleanOperators($name, self::OPERATOR_NAME);
 
         $token = ':' . str_replace('.', '_', $name) . ($counter === false ? '' : $counter);
-
-        if (in_array($token, $this->tokens)) {
-            $token .= '_';
-        }
-
-        $this->tokens[] = $token;
 
         return $token;
     }

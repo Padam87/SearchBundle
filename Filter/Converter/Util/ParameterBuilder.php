@@ -5,13 +5,6 @@ namespace Padam87\SearchBundle\Filter\Converter\Util;
 class ParameterBuilder extends OperatorHandler
 {
     /**
-     * List of created tokens
-     *
-     * @var array
-     */
-    private $tokens = array();
-    
-    /**
      * Creates the parameter for the DQL Query
      *
      * @param string $name
@@ -47,12 +40,6 @@ class ParameterBuilder extends OperatorHandler
         $name = $this->cleanOperators($name, self::OPERATOR_NAME);
 
         $token = str_replace('.', '_', $name) . ($counter === false ? '' : $counter);
-
-        if (in_array($token, $this->tokens)) {
-            $token .= '_';
-        }
-
-        $this->tokens[] = $token;
 
         return $token;
     }
